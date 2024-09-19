@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  mysql-employeeDb:
+    image: mysql:latest
+    ports:
+      - '3306:3306'
+    restart: always
+    environment:
+      MYSQL_DATABASE: employeeservice_db
+      #      MYSQL_USER: root
+      #      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql-employee-data:/var/lib/mysql
+
+volumes:
+  mysql-employee-data:

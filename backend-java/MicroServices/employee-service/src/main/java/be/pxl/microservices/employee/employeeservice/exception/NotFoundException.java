@@ -1,0 +1,7 @@
+package be.pxl.microservices.employee.employeeservice.exception;
+
+public class NotFoundException extends RuntimeException {
+	public NotFoundException(String message) {
+		super(message);
+	}
+}
