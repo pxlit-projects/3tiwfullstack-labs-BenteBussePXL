@@ -1,9 +1,6 @@
 package be.pxl.microservices.employee.employeeservice.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Employee {
@@ -11,7 +8,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long organizationId;
-    private long departmentId;
+    private Long departmentId;
     private String name;
     private int age;
     private String position;

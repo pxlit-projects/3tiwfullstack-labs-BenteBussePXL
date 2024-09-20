@@ -14,5 +14,19 @@ services:
     volumes:
       - mysql-employee-data:/var/lib/mysql
 
+  mysql-departmentDb:
+    image: mysql:latest
+    ports:
+      - '3307:3306'
+    restart: always
+    environment:
+      MYSQL_DATABASE: departmentservice_db
+      #      MYSQL_USER: root
+      #      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql-department-data:/var/lib/mysql
+
 volumes:
   mysql-employee-data:
+  mysql-department-data:
