@@ -27,6 +27,20 @@ services:
     volumes:
       - mysql-department-data:/var/lib/mysql
 
+  mysql-organizationDb:
+    image: mysql:latest
+    ports:
+      - '3308:3306'
+    restart: always
+    environment:
+      MYSQL_DATABASE: organizationservice_db
+      #      MYSQL_USER: root
+      #      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql-organization-data:/var/lib/mysql
+
 volumes:
   mysql-employee-data:
   mysql-department-data:
+  mysql-organization-data:
