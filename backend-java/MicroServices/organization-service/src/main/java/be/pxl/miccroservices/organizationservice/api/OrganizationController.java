@@ -1,6 +1,7 @@
 package be.pxl.miccroservices.organizationservice.api;
 
 import be.pxl.miccroservices.organizationservice.api.data.OrganizationDTO;
+import be.pxl.miccroservices.organizationservice.api.data.OrganizationRequest;
 import be.pxl.miccroservices.organizationservice.service.OrganizationService;
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
 import be.pxl.microservices.departmentservice.exception.NotFoundException;
@@ -22,9 +23,9 @@ public class OrganizationController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createOrganization(@RequestBody OrganizationDTO organizationDTO){
+    public ResponseEntity<?> createOrganization(@RequestBody OrganizationRequest organizationRequest){
         try {
-            this.organizationService.createOrganization(organizationDTO);
+            this.organizationService.createOrganization(organizationRequest);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

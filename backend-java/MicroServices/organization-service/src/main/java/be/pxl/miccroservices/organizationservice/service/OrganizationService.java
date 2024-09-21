@@ -1,6 +1,7 @@
 package be.pxl.miccroservices.organizationservice.service;
 
 import be.pxl.miccroservices.organizationservice.api.data.OrganizationDTO;
+import be.pxl.miccroservices.organizationservice.api.data.OrganizationRequest;
 import be.pxl.miccroservices.organizationservice.domain.Organization;
 import be.pxl.miccroservices.organizationservice.repository.OrganizationRepository;
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
@@ -21,8 +22,8 @@ public class OrganizationService {
         this.organizationRepository = organizationRepository;
     }
 
-    public void createOrganization(OrganizationDTO organizationDTO){
-        Organization newOrganization = new Organization(organizationDTO.name(), organizationDTO.address(), organizationDTO.employees(), organizationDTO.departments());
+    public void createOrganization(OrganizationRequest organizationRequest){
+        Organization newOrganization = new Organization(organizationRequest.name(), organizationRequest.address(), organizationRequest.employees(), organizationRequest.departments());
         this.organizationRepository.save(newOrganization);
     }
 
@@ -32,12 +33,12 @@ public class OrganizationService {
 
     public OrganizationDTO getOrganizationById(long id){
         Organization organization = findOrganizationById(id);
-        return new OrganizationDTO(organization.getName(), organization.getAddress(), organization.getEmployees(), organization.getDepartments());
+        return new OrganizationDTO(organization.getId(), organization.getName(), organization.getAddress(), organization.getEmployees(), organization.getDepartments());
     }
 
     public List<OrganizationDTO> getAllOrganizations(){
         return this.organizationRepository.findAll()
-                .stream().map(organization -> new OrganizationDTO(organization.getName(), organization.getAddress(), organization.getEmployees(), organization.getDepartments())).toList();
+                .stream().map(organization -> new OrganizationDTO(organization.getId(), organization.getName(), organization.getAddress(), organization.getEmployees(), organization.getDepartments())).toList();
     }
 
     public void updateOrganization(long id, OrganizationDTO organizationDTO){

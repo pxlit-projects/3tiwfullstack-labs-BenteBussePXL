@@ -1,6 +1,7 @@
 package be.pxl.microservices.employee.employeeservice.service;
 
 import be.pxl.microservices.employee.employeeservice.api.data.EmployeeDTO;
+import be.pxl.microservices.employee.employeeservice.api.data.EmployeeRequest;
 import be.pxl.microservices.employee.employeeservice.domain.Employee;
 import be.pxl.microservices.employee.employeeservice.exception.NotFoundException;
 import be.pxl.microservices.employee.employeeservice.repository.EmployeeRepository;
@@ -20,8 +21,8 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public void createEmployee(EmployeeDTO employeeDTO){
-        Employee newEmployee = new Employee(employeeDTO.organizationId(), employeeDTO.departmentId(), employeeDTO.name(), employeeDTO.age(), employeeDTO.position());
+    public void createEmployee(EmployeeRequest employeeRequest){
+        Employee newEmployee = new Employee(employeeRequest.organizationId(), employeeRequest.departmentId(), employeeRequest.name(), employeeRequest.age(), employeeRequest.position());
         this.employeeRepository.save(newEmployee);
     }
 
@@ -31,12 +32,12 @@ public class EmployeeService {
 
     public EmployeeDTO getEmployeeById(long id){
         Employee employee = findEmployeeById(id);
-        return new EmployeeDTO(employee.getOrganizationId(), employee.getDepartmentId(), employee.getName(), employee.getAge(), employee.getPosition());
+        return new EmployeeDTO(employee.getId(), employee.getOrganizationId(), employee.getDepartmentId(), employee.getName(), employee.getAge(), employee.getPosition());
     }
 
     public List<EmployeeDTO> getAllEmployees(){
         return this.employeeRepository.findAll()
-                .stream().map(employee -> new EmployeeDTO(employee.getOrganizationId(), employee.getDepartmentId(), employee.getName(), employee.getAge(), employee.getPosition())).toList();
+                .stream().map(employee -> new EmployeeDTO(employee.getId(), employee.getOrganizationId(), employee.getDepartmentId(), employee.getName(), employee.getAge(), employee.getPosition())).toList();
     }
 
     public void updateEmployee(long id, EmployeeDTO employeeDTO){

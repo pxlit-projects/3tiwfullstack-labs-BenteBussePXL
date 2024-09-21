@@ -1,6 +1,7 @@
 package be.pxl.microservices.departmentservice.service;
 
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
+import be.pxl.microservices.departmentservice.api.data.DepartmentRequest;
 import be.pxl.microservices.departmentservice.domain.Department;
 import be.pxl.microservices.departmentservice.repository.DepartmentRepository;
 import be.pxl.microservices.employee.employeeservice.domain.Employee;
@@ -19,8 +20,8 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
-    public void createDepartment(DepartmentDTO departmentDTO){
-        Department newDepartment = new Department(departmentDTO.organizationId(),departmentDTO.name(), departmentDTO.employees(), departmentDTO.position());
+    public void createDepartment(DepartmentRequest departmentRequest){
+        Department newDepartment = new Department(departmentRequest.organizationId(),departmentRequest.name(), departmentRequest.employees(), departmentRequest.position());
         this.departmentRepository.save(newDepartment);
     }
 
@@ -30,12 +31,12 @@ public class DepartmentService {
 
     public DepartmentDTO getDepartmentById(long id){
         Department department = findDepartmentById(id);
-        return new DepartmentDTO(department.getOrganizationId(), department.getName(), department.getEmployees(), department.getPosition());
+        return new DepartmentDTO(department.getId(), department.getOrganizationId(), department.getName(), department.getEmployees(), department.getPosition());
     }
 
     public List<DepartmentDTO> getAllDepartments(){
         return this.departmentRepository.findAll()
-                .stream().map(department -> new DepartmentDTO(department.getOrganizationId(), department.getName(), department.getEmployees(), department.getPosition())).toList();
+                .stream().map(department -> new DepartmentDTO(department.getId(), department.getOrganizationId(), department.getName(), department.getEmployees(), department.getPosition())).toList();
     }
 
     public void updateDepartment(long id, DepartmentDTO departmentDTO){

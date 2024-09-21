@@ -1,6 +1,7 @@
 package be.pxl.microservices.employee.employeeservice.api;
 
 import be.pxl.microservices.employee.employeeservice.api.data.EmployeeDTO;
+import be.pxl.microservices.employee.employeeservice.api.data.EmployeeRequest;
 import be.pxl.microservices.employee.employeeservice.exception.NotFoundException;
 import be.pxl.microservices.employee.employeeservice.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createEmployee(@RequestBody EmployeeDTO employeeDTO){
+    public ResponseEntity<?> createEmployee(@RequestBody EmployeeRequest employeeRequest){
         try {
-            this.employeeService.createEmployee(employeeDTO);
+            this.employeeService.createEmployee(employeeRequest);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

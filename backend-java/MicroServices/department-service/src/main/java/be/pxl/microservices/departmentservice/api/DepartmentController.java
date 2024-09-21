@@ -1,6 +1,7 @@
 package be.pxl.microservices.departmentservice.api;
 
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
+import be.pxl.microservices.departmentservice.api.data.DepartmentRequest;
 import be.pxl.microservices.departmentservice.exception.NotFoundException;
 import be.pxl.microservices.departmentservice.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createDepartment(@RequestBody DepartmentDTO departmentDTO){
+    public ResponseEntity<?> createDepartment(@RequestBody DepartmentRequest departmentRequest){
         try {
-            this.departmentService.createDepartment(departmentDTO);
+            this.departmentService.createDepartment(departmentRequest);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

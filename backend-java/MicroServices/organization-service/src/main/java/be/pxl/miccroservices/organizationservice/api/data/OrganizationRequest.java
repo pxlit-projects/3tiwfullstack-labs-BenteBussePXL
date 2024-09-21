@@ -5,5 +5,5 @@ import be.pxl.microservices.employee.employeeservice.domain.Employee;
 
 import java.util.List;
 
-public record OrganizationDTO(long id, String name, String address, List<Employee> employees, List<Department> departments) {
+public record OrganizationRequest(String name, String address, List<Employee> employees, List<Department> departments) {
 }
