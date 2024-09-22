@@ -40,7 +40,21 @@ services:
     volumes:
       - mysql-organization-data:/var/lib/mysql
 
+  mysql-notificationDb:
+    image: mysql:latest
+    ports:
+      - '3309:3306'
+    restart: always
+    environment:
+      MYSQL_DATABASE: notificationservice_db
+      #      MYSQL_USER: root
+      #      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql-notification-data:/var/lib/mysql
+
 volumes:
   mysql-employee-data:
   mysql-department-data:
   mysql-organization-data:
+  mysql-notification-data:
