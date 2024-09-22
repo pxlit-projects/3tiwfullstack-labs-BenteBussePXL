@@ -1,7 +1,6 @@
 package be.pxl.miccroservices.organizationservice.api;
 
-import be.pxl.miccroservices.organizationservice.api.data.OrganizationDTO;
-import be.pxl.miccroservices.organizationservice.api.data.OrganizationRequest;
+import be.pxl.miccroservices.organizationservice.api.data.*;
 import be.pxl.miccroservices.organizationservice.service.OrganizationService;
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
 import be.pxl.microservices.departmentservice.exception.NotFoundException;
@@ -35,7 +34,43 @@ public class OrganizationController {
     @GetMapping("{id}")
     public ResponseEntity<?> getOrganizationById(@PathVariable long id){
         try {
-            OrganizationDTO organizationDTO = this.organizationService.getOrganizationById(id);
+            OrganizationWOEmployeesAndDepartmentsDTO organizationDTO = this.organizationService.getOrganizationById(id);
+            return new ResponseEntity<>(organizationDTO, HttpStatus.OK);
+        } catch (NotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("{id}/with-departments")
+    public ResponseEntity<?> getOrganizationByIdWithDepartments(@PathVariable long id){
+        try {
+            OrganizationWOEmployeesDTO organizationDTO = this.organizationService.getOrganizationByIdWithDepartments(id);
+            return new ResponseEntity<>(organizationDTO, HttpStatus.OK);
+        } catch (NotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("{id}/with-departments-and-employees")
+    public ResponseEntity<?> getOrganizationByIdWithDepartmentsAndEmployees(@PathVariable long id){
+        try {
+            OrganizationDTO organizationDTO = this.organizationService.getOrganizationByIdWithDepartmentsAndEmployees(id);
+            return new ResponseEntity<>(organizationDTO, HttpStatus.OK);
+        } catch (NotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("{id}/with-employees")
+    public ResponseEntity<?> getOrganizationByIdWithEmployees(@PathVariable long id){
+        try {
+            OrganizationWODepartmentsDTO organizationDTO = this.organizationService.getOrganizationByIdWithEmployees(id);
             return new ResponseEntity<>(organizationDTO, HttpStatus.OK);
         } catch (NotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

@@ -1,7 +1,6 @@
 package be.pxl.miccroservices.organizationservice.service;
 
-import be.pxl.miccroservices.organizationservice.api.data.OrganizationDTO;
-import be.pxl.miccroservices.organizationservice.api.data.OrganizationRequest;
+import be.pxl.miccroservices.organizationservice.api.data.*;
 import be.pxl.miccroservices.organizationservice.domain.Organization;
 import be.pxl.miccroservices.organizationservice.repository.OrganizationRepository;
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
@@ -31,9 +30,24 @@ public class OrganizationService {
         return this.organizationRepository.findById(id).orElseThrow(() -> new NotFoundException(id + " not found!"));
     }
 
-    public OrganizationDTO getOrganizationById(long id){
+    public OrganizationWOEmployeesAndDepartmentsDTO getOrganizationById(long id){
+        Organization organization = findOrganizationById(id);
+        return new OrganizationWOEmployeesAndDepartmentsDTO(organization.getId(), organization.getName(), organization.getAddress());
+    }
+
+    public OrganizationWOEmployeesDTO getOrganizationByIdWithDepartments(long id){
+        Organization organization = findOrganizationById(id);
+        return new OrganizationWOEmployeesDTO(organization.getId(), organization.getName(), organization.getAddress(), organization.getDepartments());
+    }
+
+    public OrganizationDTO getOrganizationByIdWithDepartmentsAndEmployees(long id){
         Organization organization = findOrganizationById(id);
         return new OrganizationDTO(organization.getId(), organization.getName(), organization.getAddress(), organization.getEmployees(), organization.getDepartments());
+    }
+
+    public OrganizationWODepartmentsDTO getOrganizationByIdWithEmployees(long id){
+        Organization organization = findOrganizationById(id);
+        return new OrganizationWODepartmentsDTO(organization.getId(), organization.getName(), organization.getAddress(), organization.getEmployees());
     }
 
     public List<OrganizationDTO> getAllOrganizations(){

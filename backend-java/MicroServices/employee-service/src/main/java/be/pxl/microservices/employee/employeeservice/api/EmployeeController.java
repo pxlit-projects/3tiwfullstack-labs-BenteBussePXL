@@ -53,6 +53,30 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("department/{departmentId}")
+    public ResponseEntity<?> findByDepartment(@PathVariable long departmentId){
+        try {
+            List<EmployeeDTO> employeeDTOList = this.employeeService.getEmployeesByDepartment(departmentId);
+            return new ResponseEntity<>(employeeDTOList, HttpStatus.OK);
+        } catch (NotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("organization/{organizationId}")
+    public ResponseEntity<?> findByOrganization(@PathVariable long organizationId){
+        try {
+            List<EmployeeDTO> employeeDTOList = this.employeeService.getEmployeesByOrganization(organizationId);
+            return new ResponseEntity<>(employeeDTOList, HttpStatus.OK);
+        } catch (NotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable long id, @RequestBody EmployeeDTO employeeDTO){
         try {

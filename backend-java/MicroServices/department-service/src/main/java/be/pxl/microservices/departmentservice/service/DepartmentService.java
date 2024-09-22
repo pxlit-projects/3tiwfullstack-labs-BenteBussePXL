@@ -2,6 +2,7 @@ package be.pxl.microservices.departmentservice.service;
 
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
 import be.pxl.microservices.departmentservice.api.data.DepartmentRequest;
+import be.pxl.microservices.departmentservice.api.data.DepartmentWOEmployeesDTO;
 import be.pxl.microservices.departmentservice.domain.Department;
 import be.pxl.microservices.departmentservice.repository.DepartmentRepository;
 import be.pxl.microservices.employee.employeeservice.domain.Employee;
@@ -51,5 +52,15 @@ public class DepartmentService {
     public void deleteDepartment(long id){
         Department department = findDepartmentById(id);
         this.departmentRepository.delete(department);
+    }
+
+    public List<DepartmentWOEmployeesDTO> getDepartmentByOrganization(long organizationId) {
+        return this.departmentRepository.findDepartmentByOrganizationId(organizationId)
+                .stream().map(department -> new DepartmentWOEmployeesDTO(department.getId(), department.getOrganizationId(), department.getName(), department.getPosition())).toList();
+    }
+
+    public List<DepartmentDTO> getDepartmentByOrganizationWithEmployees(long organizationId) {
+        return this.departmentRepository.findDepartmentByOrganizationId(organizationId)
+                .stream().map(department -> new DepartmentDTO(department.getId(), department.getOrganizationId(), department.getName(), department.getEmployees(), department.getPosition())).toList();
     }
 }

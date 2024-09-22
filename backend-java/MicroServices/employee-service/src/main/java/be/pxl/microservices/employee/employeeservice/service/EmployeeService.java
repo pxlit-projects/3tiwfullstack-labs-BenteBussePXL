@@ -54,4 +54,14 @@ public class EmployeeService {
         Employee employee = findEmployeeById(id);
         this.employeeRepository.delete(employee);
     }
+
+    public List<EmployeeDTO> getEmployeesByDepartment(long departmentId) {
+        return this.employeeRepository.findEmployeesByDepartmentId(departmentId)
+                .stream().map(employee -> new EmployeeDTO(employee.getId(), employee.getOrganizationId(), employee.getDepartmentId(), employee.getName(), employee.getAge(), employee.getPosition())).toList();
+    }
+
+    public List<EmployeeDTO> getEmployeesByOrganization(long organizationId) {
+        return this.employeeRepository.findEmployeesByOrganizationId(organizationId)
+                .stream().map(employee -> new EmployeeDTO(employee.getId(), employee.getOrganizationId(), employee.getDepartmentId(), employee.getName(), employee.getAge(), employee.getPosition())).toList();
+    }
 }

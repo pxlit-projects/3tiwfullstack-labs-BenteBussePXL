@@ -2,6 +2,7 @@ package be.pxl.microservices.departmentservice.api;
 
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
 import be.pxl.microservices.departmentservice.api.data.DepartmentRequest;
+import be.pxl.microservices.departmentservice.api.data.DepartmentWOEmployeesDTO;
 import be.pxl.microservices.departmentservice.exception.NotFoundException;
 import be.pxl.microservices.departmentservice.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,26 @@ public class DepartmentController {
     public ResponseEntity<?> getAllDepartments(){
         try {
             List<DepartmentDTO> departmentDTOS = this.departmentService.getAllDepartments();
+            return new ResponseEntity<>(departmentDTOS, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("organization/{organizationId}")
+    public ResponseEntity<?> getDepartmentByOrganization(@PathVariable long organizationId){
+        try {
+            List<DepartmentWOEmployeesDTO> departmentDTOS = this.departmentService.getDepartmentByOrganization(organizationId);
+            return new ResponseEntity<>(departmentDTOS, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("organization/{organizationId}/with-employees")
+    public ResponseEntity<?> getDepartmentByOrganizationWithEmployees(@PathVariable long organizationId){
+        try {
+            List<DepartmentDTO> departmentDTOS = this.departmentService.getDepartmentByOrganizationWithEmployees(organizationId);
             return new ResponseEntity<>(departmentDTOS, HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
