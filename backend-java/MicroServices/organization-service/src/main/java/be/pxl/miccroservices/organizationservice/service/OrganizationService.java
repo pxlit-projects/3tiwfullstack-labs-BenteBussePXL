@@ -3,10 +3,7 @@ package be.pxl.miccroservices.organizationservice.service;
 import be.pxl.miccroservices.organizationservice.api.data.*;
 import be.pxl.miccroservices.organizationservice.domain.Organization;
 import be.pxl.miccroservices.organizationservice.repository.OrganizationRepository;
-import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
-import be.pxl.microservices.departmentservice.domain.Department;
 import be.pxl.microservices.employee.employeeservice.exception.NotFoundException;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
