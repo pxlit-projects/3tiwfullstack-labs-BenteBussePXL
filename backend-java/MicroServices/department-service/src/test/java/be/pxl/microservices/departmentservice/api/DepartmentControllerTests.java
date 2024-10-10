@@ -2,8 +2,12 @@ package be.pxl.microservices.departmentservice.api;
 
 import be.pxl.microservices.departmentservice.api.data.DepartmentDTO;
 import be.pxl.microservices.departmentservice.api.data.DepartmentRequest;
+import be.pxl.microservices.departmentservice.api.data.DepartmentWOEmployeesDTO;
+import be.pxl.microservices.departmentservice.domain.Department;
 import be.pxl.microservices.departmentservice.repository.DepartmentRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,9 +64,12 @@ public class DepartmentControllerTests {
 
     @Test
     void getAllDepartmentsShouldReturnAllDepartmentsTest() throws Exception {
-        DepartmentDTO departmentDTO = new DepartmentDTO(1, 5, "IT", null, "Corda 2");
+        DepartmentDTO departmentDTO = new DepartmentDTO(2, 5, "IT", null, "Corda 2");
+        DepartmentDTO departmentDTO2 = new DepartmentDTO(1, 2, "Accounting", null, "Corda 7");
+
         List<DepartmentDTO> expectedDepartments = new ArrayList<>();
         expectedDepartments.add(departmentDTO);
+        expectedDepartments.add(departmentDTO2);
         mockMvc.perform(MockMvcRequestBuilders.get("/departments"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedDepartments)));
@@ -70,18 +77,19 @@ public class DepartmentControllerTests {
 
     @Test
     void getDepartmentByIdShouldReturnDepartmentTest() throws Exception {
-        DepartmentDTO departmentDTO = new DepartmentDTO(1, 5, "IT", null, "Corda 2");
-        mockMvc.perform(MockMvcRequestBuilders.get("/departments/1"))
+        DepartmentDTO departmentDTO = new DepartmentDTO(2, 5, "IT", null, "Corda 2");
+        mockMvc.perform(MockMvcRequestBuilders.get("/departments/2"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(departmentDTO)));
     }
 
     @Test
     void getDepartmentByOrganizationIdShouldReturnDepartmentTest() throws Exception {
-        DepartmentDTO departmentDTO = new DepartmentDTO(1, 5, "IT", null, "Corda 2");
-        List<DepartmentDTO> expectedDepartments = new ArrayList<>();
+        this.departmentRepository.save(new Department(2, "Accounting", null, "Corda 7"));
+        DepartmentWOEmployeesDTO departmentDTO = new DepartmentWOEmployeesDTO(1, 2, "Accounting", "Corda 7");
+        List<DepartmentWOEmployeesDTO> expectedDepartments = new ArrayList<>();
         expectedDepartments.add(departmentDTO);
-        mockMvc.perform(MockMvcRequestBuilders.get("/departments/organization/5"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/departments/organization/2"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedDepartments)));
     }
