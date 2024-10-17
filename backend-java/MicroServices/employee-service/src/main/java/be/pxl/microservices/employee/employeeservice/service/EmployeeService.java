@@ -2,9 +2,12 @@ package be.pxl.microservices.employee.employeeservice.service;
 
 import be.pxl.microservices.employee.employeeservice.api.data.EmployeeDTO;
 import be.pxl.microservices.employee.employeeservice.api.data.EmployeeRequest;
+import be.pxl.microservices.employee.employeeservice.api.data.NotificationRequest;
+import be.pxl.microservices.employee.employeeservice.client.NotificationClient;
 import be.pxl.microservices.employee.employeeservice.domain.Employee;
 import be.pxl.microservices.employee.employeeservice.exception.NotFoundException;
 import be.pxl.microservices.employee.employeeservice.repository.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -13,17 +16,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
-
-    @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+    private final NotificationClient notificationClient;
 
     public void createEmployee(EmployeeRequest employeeRequest){
         Employee newEmployee = new Employee(employeeRequest.organizationId(), employeeRequest.departmentId(), employeeRequest.name(), employeeRequest.age(), employeeRequest.position());
         this.employeeRepository.save(newEmployee);
+        notificationClient.sendNotification(new NotificationRequest("New Employee Created", "Employee Service"));
     }
 
     public Employee findEmployeeById(long id){
