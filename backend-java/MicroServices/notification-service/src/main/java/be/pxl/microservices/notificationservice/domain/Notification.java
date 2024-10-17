@@ -1,11 +1,6 @@
 package be.pxl.microservices.notificationservice.domain;
 
-import jakarta.persistence.*;
-
-@Entity
 public class Notification {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String sender;
     private String receiver;
