@@ -12,7 +12,7 @@ import { AsyncPipe } from '@angular/common';
 @Component({
   selector: 'app-customer-list',
   standalone: true,
-  imports: [CustomerItemComponent, FilterComponent, AddCustomerComponent],
+  imports: [CustomerItemComponent, FilterComponent, AddCustomerComponent, AsyncPipe],
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css']
 })
