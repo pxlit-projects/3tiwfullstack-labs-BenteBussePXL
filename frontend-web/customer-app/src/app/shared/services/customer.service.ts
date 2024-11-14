@@ -28,6 +28,14 @@ export class CustomerService {
     );
   }
 
+  updateCustomer(customer: Customer): Observable<Customer>{
+    return this.http.put<Customer>('/api/customers/' + customer.id, customer);
+  }
+
+  getCustomer(id: number): Observable<Customer> {
+      return this.http.get<Customer>('api/customers/' + id);
+  }
+
 
   private isCustomerMatchingFilter(customer: Customer, filter: Filter): boolean {
     const matchesName = customer.name.toLowerCase().includes(filter.name.toLowerCase());

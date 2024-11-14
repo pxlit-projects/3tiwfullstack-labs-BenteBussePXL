@@ -28,16 +28,6 @@ export class CustomerListComponent implements OnInit {
   handleFilter(filter: Filter){
     this.filteredData$ = this.customerService.filterCustomers(filter);
   }
- 
-
-
-  processAdd(customer: Customer){
-    this.customerService.addCustomer(customer).subscribe({
-      next: () => {
-        this.fetchData();
-      }
-    });
-  }
 
   fetchData(): void {
     this.filteredData$ = this.customerService.getCustomers();

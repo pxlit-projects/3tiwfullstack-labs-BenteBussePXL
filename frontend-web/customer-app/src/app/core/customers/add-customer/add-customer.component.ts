@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Customer } from '../../../shared/models/customer.model';
+import { Router } from '@angular/router';
+import { CustomerService } from '../../../shared/services/customer.service';
 
 @Component({
   selector: 'app-add-customer',
@@ -10,8 +12,9 @@ import { Customer } from '../../../shared/models/customer.model';
   styleUrls: ['./add-customer.component.css'] 
 })
 export class AddCustomerComponent {
+  customerService: CustomerService = inject(CustomerService);
+  router: Router = inject(Router);  
   fb: FormBuilder = inject(FormBuilder);
-  @Output() addCustomer = new EventEmitter<Customer>();
   customerForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -26,6 +29,10 @@ export class AddCustomerComponent {
     const newCustomer: Customer = {
       ...this.customerForm.value
     };
-    this.addCustomer.emit(newCustomer);
+    this.customerService.addCustomer(newCustomer).subscribe(customer => {
+      this.customerForm.reset();
+      this.router.navigate(['/customers']);
+    });
   }
+
 }
